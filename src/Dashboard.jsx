@@ -7,7 +7,6 @@ const Dashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState(null); 
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     fetch("https://anvaya-crm-phase-2.vercel.app/api/leads")
       .then((res) => res.json())
@@ -26,7 +25,6 @@ const Dashboard = () => {
     return acc;
   }, {});
 
- 
   const displayedLeads = selectedFilter
     ? leads.filter((lead) => lead.status === selectedFilter)
     : leads.slice(0, 3); 
@@ -34,20 +32,18 @@ const Dashboard = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-      
         <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
           <div className="position-sticky">
             <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
             <ul className="nav flex-column mt-3">
               <li className="nav-item mb-1"><Link className="nav-link active fw-bold" to="/">Dashboard</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><a className="nav-link" href="#agents">Sales Agents</a></li>
-              <li className="nav-item mb-1"><a className="nav-link" href="#reports">Reports</a></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
             </ul>
           </div>
         </nav>
 
-      
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">Anvaya CRM Dashboard</h1>
@@ -60,7 +56,6 @@ const Dashboard = () => {
             <p>Loading dashboard data...</p>
           ) : (
             <div>
-              {/* Lead Status */}
               <div className="card mb-4 shadow-sm">
                 <div className="card-body">
                   <h4 className="card-title">Lead Status Overview</h4>
@@ -84,7 +79,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-             
               <div className="mb-3">
                 <div className="d-flex align-items-center gap-2">
                   <h5 className="mb-0 me-2">Quick Filters:</h5>
@@ -111,7 +105,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Filtered or Recent Leads*/}
               <div className="row">
                 <h5>
                   {selectedFilter ? `Filtered Leads (${selectedFilter})` : "Recent Leads"} (Click a card to view Lead Management)

@@ -27,14 +27,14 @@ const LeadList = () => {
       });
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     let result = [...leads];
 
-     if (statusFilter) {
+    if (statusFilter) {
       result = result.filter((lead) => lead.status === statusFilter);
     }
 
-       if (agentFilter) {
+    if (agentFilter) {
       result = result.filter(
         (lead) =>
           lead.salesAgent?._id === agentFilter ||
@@ -65,23 +65,20 @@ const LeadList = () => {
             <ul className="nav flex-column mt-3">
               <li className="nav-item mb-1"><Link className="nav-link" to="/">Dashboard</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link active fw-bold text-primary" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><a className="nav-link" href="#agents">Sales Agents</a></li>
-              <li className="nav-item mb-1"><a className="nav-link" href="#reports">Reports</a></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
             </ul>
           </div>
         </nav>
 
-       
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">Lead List Overview</h1>
-           
             <button className="btn btn-primary" onClick={() => navigate("/leads/new")}>
               Add New Lead 
             </button>
           </div>
 
-         
           <div className="card bg-light p-3 mb-4 shadow-sm">
             <div className="row g-3">
               <div className="col-md-4">
@@ -126,7 +123,6 @@ const LeadList = () => {
             </div>
           </div>
 
-          {/* Lead List Items */}
           <div className="list-group shadow-sm">
             {filteredLeads.length === 0 ? (
               <div className="p-4 text-center bg-white border rounded">

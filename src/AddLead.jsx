@@ -15,12 +15,12 @@ const AddLead = () => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     fetch("https://anvaya-crm-phase-2.vercel.app/api/agents")
       .then((res) => res.json())
       .then((data) => {
-        setAgents(Array.isArray(data) ? data : []);
+        const agentList = Array.isArray(data) ? data : data.data?.agents || [];
+        setAgents(agentList);
       })
       .catch((err) => console.error("Error fetching sales agents:", err));
   }, []);
@@ -34,7 +34,6 @@ const AddLead = () => {
     e.preventDefault();
     setSubmitting(true);
 
-   
     const formattedTags = formData.tags
       ? formData.tags.split(",").map((t) => t.trim())
       : [];
@@ -69,19 +68,18 @@ const AddLead = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-      
         <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
           <div className="position-sticky">
             <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
             <ul className="nav flex-column mt-3">
               <li className="nav-item mb-1"><Link className="nav-link" to="/">Dashboard</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link active fw-bold text-primary" to="/leads/new">Add New Lead</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
             </ul>
           </div>
         </nav>
 
-        
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">Add New Lead</h1>
@@ -89,7 +87,6 @@ const AddLead = () => {
 
           <div className="card shadow-sm p-4 col-md-8">
             <form onSubmit={handleSubmit}>
-              {/* Lead Name */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Lead Name:</label>
                 <input
@@ -103,7 +100,6 @@ const AddLead = () => {
                 />
               </div>
 
-              {/* Lead Source */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Lead Source:</label>
                 <select
@@ -121,7 +117,6 @@ const AddLead = () => {
                 </select>
               </div>
 
-              {/* Sales Agent Selection */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Sales Agent:</label>
                 <select
@@ -129,17 +124,17 @@ const AddLead = () => {
                   className="form-select"
                   value={formData.salesAgent}
                   onChange={handleChange}
+                  required
                 >
                   <option value="">Select Sales Agent</option>
                   {agents.map((agent) => (
-                    <option key={agent.id} value={agent.id}>
+                    <option key={agent.id || agent._id} value={agent.id || agent._id}>
                       {agent.name} ({agent.email})
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Lead Status */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Lead Status:</label>
                 <select
@@ -156,7 +151,6 @@ const AddLead = () => {
                 </select>
               </div>
 
-              {/* Priority */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Priority:</label>
                 <select
@@ -171,7 +165,6 @@ const AddLead = () => {
                 </select>
               </div>
 
-              {/* Time to Close */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Time to Close (Number of Days):</label>
                 <input
@@ -186,7 +179,6 @@ const AddLead = () => {
                 />
               </div>
 
-              {/* Tags */}
               <div className="mb-3">
                 <label className="form-label fw-bold">Tags (comma-separated):</label>
                 <input
@@ -199,8 +191,7 @@ const AddLead = () => {
                 />
               </div>
 
-          
-              <button type="submit" className="btn btn-primary btn-primary" disabled={submitting}>
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
                 {submitting ? "Creating..." : "Create Lead"}
               </button>
             </form>

@@ -38,10 +38,11 @@ const LeadManagement = () => {
       })
       .catch((err) => console.error("Error fetching lead details:", err));
 
-    fetch(`https://anvaya-crm-phase-2.vercel.app/api/comments/${currentLeadId}/comments`)
+    fetch(`https://anvaya-crm-phase-2.vercel.app/api/leads/${currentLeadId}/comments`)
       .then((res) => res.json())
       .then((data) => {
-        setComments(Array.isArray(data) ? data : []);
+        const commentList = Array.isArray(data) ? data : data.data || [];
+        setComments(commentList);
         setLoading(false);
       })
       .catch((err) => {
@@ -50,7 +51,7 @@ const LeadManagement = () => {
       });
   }, [currentLeadId]);
 
-   const handleAddComment = (e) => {
+  const handleAddComment = (e) => {
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
@@ -66,7 +67,7 @@ const LeadManagement = () => {
       author: agentId,
     };
 
-    fetch(`https://anvaya-crm-phase-2.vercel.app/api/comments/${lead?._id || currentLeadId}/comments`, {
+    fetch(`https://anvaya-crm-phase-2.vercel.app/api/leads/${lead?._id || currentLeadId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -76,7 +77,8 @@ const LeadManagement = () => {
         return res.json();
       })
       .then((savedComment) => {
-        setComments([savedComment, ...comments]);
+        const newEntry = savedComment.data || savedComment;
+        setComments([newEntry, ...comments]);
         setNewCommentText("");
       })
       .catch((err) => {
@@ -109,7 +111,7 @@ const LeadManagement = () => {
         return res.json();
       })
       .then((data) => {
-        const updatedLead = data.data?.lead;
+        const updatedLead = data.data?.lead || data.lead || data;
         setLead(updatedLead);
         setIsEditing(false);
         alert("Lead updated successfully!");
@@ -140,13 +142,11 @@ const LeadManagement = () => {
           </div>
         </nav>
 
-       
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">Lead Management: {lead?.name || "Selected Lead"}</h1>
           </div>
 
-          {/* Lead Details */}
           <div className="card mb-4 shadow-sm">
             <div className="card-body">
               <h4 className="card-title mb-3">Lead Details</h4>
@@ -223,15 +223,13 @@ const LeadManagement = () => {
             </div>
           </div>
 
-         
           <div className="card shadow-sm">
             <div className="card-body">
               <h4 className="card-title mb-3">Comments Section</h4>
               
-              {/* Add Comment Form */}
               <form onSubmit={handleAddComment} className="mb-4">
                 <div className="mb-3">
-                  <label htmlFor="commentInput" className="form-label text-muted small">Add New Comment </label>
+                  <label htmlFor="commentInput" className="form-label text-muted small">Add New Comment</label>
                   <input
                     type="text"
                     id="commentInput"
@@ -250,17 +248,16 @@ const LeadManagement = () => {
 
               <hr />
 
-              {/* Comments Feed */}
               <div className="comments-list mt-3">
                 {comments.length === 0 ? (
                   <p className="text-muted">No comments found for this lead yet.</p>
                 ) : (
                   comments.map((comment, index) => (
-                    <div className="card mb-2 bg-light border-0" key={comment.id || index}>
+                    <div className="card mb-2 bg-light border-0" key={comment.id || comment._id || index}>
                       <div className="card-body py-2">
                         <div className="d-flex justify-content-between text-muted small mb-1">
-                          <span><strong>{comment.author || "Sales Agent"}</strong></span>
-                          <span>{new Date(comment.createdAt).toLocaleString()}</span>
+                          <span><strong>{comment.author?.name || comment.author || "Sales Agent"}</strong></span>
+                          <span>{new Date(comment.createdAt || Date.now()).toLocaleString()}</span>
                         </div>
                         <p className="card-text mb-0">Comment: {comment.commentText}</p>
                       </div>

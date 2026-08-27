@@ -4,6 +4,8 @@ import Dashboard from "./Dashboard";
 import LeadManagement from "./LeadManagement";
 import LeadList from "./LeadList";
 import AddLead from "./AddLead";
+import SalesAgents from "./SalesAgents";
+import Reports from "./Reports";
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
           <Route path="/leads/new" element={<AddLead />} />
 
           <Route path="/leads/:leadId" element={<LeadManagement />} />
+
+          <Route path="/agents" element={<SalesAgents />} />
+
+          <Route path="/reports" element={<Reports />} />
         </Routes>
       </div>
     </Router>
