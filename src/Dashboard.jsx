@@ -38,6 +38,8 @@ const Dashboard = () => {
             <ul className="nav flex-column mt-3">
               <li className="nav-item mb-1"><Link className="nav-link active fw-bold" to="/">Dashboard</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link" to="/leads">Lead List</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/leads/status">Leads by Status</Link></li>
+              <li className="nav-item mb-1"><Link className="nav-link" to="/agents/view">Sales Agent View</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
               <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
             </ul>
