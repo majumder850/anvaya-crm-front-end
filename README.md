@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# Anvaya CRM — Frontend Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Anvaya CRM is a sales pipeline and lead management single-page application built with React, React Router v6, and Bootstrap 5. It communicates with a backend REST API hosted at `https://anvaya-crm-phase-2.vercel.app/api`.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### 1. Dashboard (`/`)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Summary cards showing lead counts per lifecycle stage (`New`, `Contacted`, `Qualified`, `Proposal Sent`, `Closed`).
+- Quick-filter toggle buttons for all 5 stages.
+- Recent leads preview cards linking directly to lead management details.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Lead List Overview (`/leads`)
 
-### `npm test`
+- Full lead ledger displaying lead name, source, priority, turnaround days, status badge, and assigned sales agent.
+- Filter by **Status**, **Source**, **Sales Agent**, and **Tags**.
+- Sort by **Priority** (High to Low) and **Time to Close** (Ascending).
+- **URL Parameter Synchronization:** Active filters and sort states are kept in sync with browser query params using `useSearchParams`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. Lead Management & Details (`/leads/:leadId`)
 
-### `npm run build`
+- View full lead metadata, including tag badges.
+- In-place editing mode supporting lead name, sales agent assignment, lead source, status, priority, time to close, and comma-separated tags.
+- Threaded activity/comment feed with author name and timestamp.
+- Precise error messages on failed comment submissions.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4. Segmented Pipeline Views
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Leads by Status (`/leads/status`):** Tabbed interface filtering leads by status stage with secondary agent and priority filters.
+- **Sales Agent View (`/agents/view`):** Agent dropdown selector to inspect leads assigned to a specific representative.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. Sales Agent Directory (`/agents`)
 
-### `npm run eject`
+- Roster of all registered agents with unique email and date joined.
+- Form to register new agents.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 6. Reports & Analytics (`/reports`)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- KPI cards for active pipeline volume and total closed deals.
+- Visual charts for:
+  - Lead Status Distribution.
+  - Closed Leads by Sales Agent.
+  - Rolling 7-Day closure velocity.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 7. Responsive Mobile Layout
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Collapsible hamburger menu on smaller viewports for seamless navigation across all views.
+- Non-blocking toast notifications for success and error messages instead of browser alerts.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Tech Stack
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Framework:** React 18
+- **Routing:** React Router v6
+- **Styling:** Bootstrap 5
+- **Backend API:** `https://anvaya-crm-phase-2.vercel.app/api`
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Getting Started
 
-### Analyzing the Bundle Size
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Node.js (v16 or higher)
+- npm or yarn

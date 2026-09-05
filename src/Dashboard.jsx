@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const Dashboard = () => {
   const [leads, setLeads] = useState([]);
@@ -29,22 +30,12 @@ const Dashboard = () => {
     ? leads.filter((lead) => lead.status === selectedFilter)
     : leads.slice(0, 3); 
 
+  const quickFilterStatuses = ["New", "Contacted", "Qualified", "Proposal Sent", "Closed"];
+
   return (
     <div className="container-fluid">
       <div className="row">
-        <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
-          <div className="position-sticky">
-            <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
-            <ul className="nav flex-column mt-3">
-              <li className="nav-item mb-1"><Link className="nav-link active fw-bold" to="/">Dashboard</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/leads/status">Leads by Status</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/agents/view">Sales Agent View</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
-            </ul>
-          </div>
-        </nav>
+        <Sidebar />
 
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -82,10 +73,10 @@ const Dashboard = () => {
               </div>
 
               <div className="mb-3">
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex flex-wrap align-items-center gap-2">
                   <h5 className="mb-0 me-2">Quick Filters:</h5>
-                  <div className="btn-group" role="group">
-                    {["New", "Contacted", "Qualified"].map((status) => (
+                  <div className="btn-group flex-wrap" role="group">
+                    {quickFilterStatuses.map((status) => (
                       <button
                         key={status}
                         type="button"

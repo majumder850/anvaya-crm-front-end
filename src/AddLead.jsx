@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import Toast from "./Toast";
 
 const AddLead = () => {
   const [agents, setAgents] = useState([]);
@@ -13,6 +15,7 @@ const AddLead = () => {
     tags: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "success" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const AddLead = () => {
     setSubmitting(true);
 
     const formattedTags = formData.tags
-      ? formData.tags.split(",").map((t) => t.trim())
+      ? formData.tags.split(",").map((t) => t.trim()).filter(Boolean)
       : [];
 
     const payload = {
@@ -53,32 +56,31 @@ const AddLead = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || data.message || "Failed to create lead.");
+        return data;
+      })
       .then(() => {
-        alert("Lead created successfully!");
-        navigate("/leads"); 
+        setToast({ message: "Lead created successfully!", type: "success" });
+        setTimeout(() => navigate("/leads"), 1500);
       })
       .catch((err) => {
         console.error("Error creating lead:", err);
-        alert("Failed to create lead.");
+        setToast({ message: err.message || "Failed to create lead.", type: "error" });
         setSubmitting(false);
       });
   };
 
   return (
     <div className="container-fluid">
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "success" })}
+      />
       <div className="row">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
-          <div className="position-sticky">
-            <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
-            <ul className="nav flex-column mt-3">
-              <li className="nav-item mb-1"><Link className="nav-link" to="/">Dashboard</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
-            </ul>
-          </div>
-        </nav>
+        <Sidebar />
 
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

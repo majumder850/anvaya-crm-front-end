@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import Toast from "./Toast";
 
 const SalesAgents = () => {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "success" });
 
   const fetchAgents = () => {
     fetch("https://anvaya-crm-phase-2.vercel.app/api/agents")
@@ -43,12 +42,13 @@ const SalesAgents = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to create agent");
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to add sales agent. Email might already exist.");
+        return data;
       })
       .then(() => {
-        alert("Sales Agent added successfully!");
+        setToast({ message: "Sales Agent added successfully!", type: "success" });
         setFormData({ name: "", email: "" });
         setShowAddForm(false);
         setSubmitting(false);
@@ -56,41 +56,24 @@ const SalesAgents = () => {
       })
       .catch((err) => {
         console.error("Error creating agent:", err);
-        alert("Failed to add sales agent. Email might already exist.");
+        setToast({ message: err.message || "Failed to add sales agent.", type: "error" });
         setSubmitting(false);
       });
   };
 
   if (loading) {
-    return (
-      <div className="container mt-4">
-        <p>Loading Sales Agents...</p>
-      </div>
-    );
+    return <div className="container mt-4"><p>Loading Sales Agents...</p></div>;
   }
 
   return (
     <div className="container-fluid">
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "success" })}
+      />
       <div className="row">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
-          <div className="position-sticky">
-            <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
-            <ul className="nav flex-column mt-3">
-              <li className="nav-item mb-1">
-                <Link className="nav-link" to="/">Dashboard</Link>
-              </li>
-              <li className="nav-item mb-1">
-                <Link className="nav-link" to="/leads">Lead List</Link>
-              </li>
-              <li className="nav-item mb-1">
-                <Link className="nav-link active fw-bold text-primary" to="/agents">Sales Agents</Link>
-              </li>
-              <li className="nav-item mb-1">
-                <Link className="nav-link" to="/reports">Reports</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Sidebar />
 
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
