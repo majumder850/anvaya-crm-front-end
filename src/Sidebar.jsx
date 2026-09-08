@@ -17,7 +17,9 @@ const Sidebar = () => {
   return (
     <>
       <div className="d-md-none bg-light p-2 border-bottom d-flex align-items-center justify-content-between">
-        <span className="fw-bold text-muted">Anvaya CRM</span>
+        <Link to="/" className="fw-bold text-muted text-decoration-none">
+          Anvaya CRM
+        </Link>
         <button
           className="btn btn-outline-secondary btn-sm"
           type="button"
@@ -34,7 +36,11 @@ const Sidebar = () => {
         }`}
       >
         <div className="position-sticky">
-          <h5 className="sidebar-heading px-3 text-muted d-none d-md-block">Anvaya CRM</h5>
+          <h5 className="sidebar-heading px-3 text-muted d-none d-md-block">
+            <Link to="/" className="text-muted text-decoration-none">
+              Anvaya CRM
+            </Link>
+          </h5>
           <ul className="nav flex-column mt-3">
             {links.map((link) => {
               const isActive = location.pathname === link.to;
