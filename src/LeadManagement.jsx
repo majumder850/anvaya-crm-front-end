@@ -54,11 +54,22 @@ const LeadManagement = () => {
         setAgents(list);
       });
 
+   
     const fetchCommentsPromise = fetch(`https://anvaya-crm-phase-2.vercel.app/api/leads/${currentLeadId}/comments`)
-      .then((res) => res.json())
-      .then((data) => {
-        const commentList = Array.isArray(data) ? data : data.data || [];
-        setComments(commentList);
+      .then(async (res) => {
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          const commentList = Array.isArray(data) ? data : data.data || [];
+          setComments(commentList);
+        } catch (e) {
+          console.error("Non-JSON response for comments:", text);
+          setComments([]);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching comments:", err);
+        setComments([]);
       });
 
     Promise.all([fetchLeadPromise, fetchAgentsPromise, fetchCommentsPromise])
@@ -95,7 +106,13 @@ const LeadManagement = () => {
       body: JSON.stringify(payload),
     })
       .then(async (res) => {
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error("Server returned an invalid response (non-JSON).");
+        }
         if (!res.ok) {
           throw new Error(data.error || data.message || `HTTP ${res.status}: Failed to post comment`);
         }
@@ -137,7 +154,13 @@ const LeadManagement = () => {
       body: JSON.stringify(payload),
     })
       .then(async (res) => {
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error("Server returned an invalid response (non-JSON).");
+        }
         if (!res.ok) {
           throw new Error(data.error || data.message || "Failed to update lead");
         }

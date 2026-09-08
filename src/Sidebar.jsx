@@ -24,7 +24,7 @@ const Sidebar = () => {
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon">&#9776; Menu</span>
+          <span className="navbar-toggler-icon">&#9776;</span>
         </button>
       </div>
 

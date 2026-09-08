@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const LeadList = () => {
   const [leads, setLeads] = useState([]);
@@ -86,19 +87,7 @@ const LeadList = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse py-3 border-end min-vh-100">
-          <div className="position-sticky">
-            <h5 className="sidebar-heading px-3 text-muted">Anvaya CRM</h5>
-            <ul className="nav flex-column mt-3">
-              <li className="nav-item mb-1"><Link className="nav-link" to="/">Dashboard</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link active fw-bold text-primary" to="/leads">Lead List</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/leads/status">Leads by Status</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/agents/view">Sales Agent View</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/agents">Sales Agents</Link></li>
-              <li className="nav-item mb-1"><Link className="nav-link" to="/reports">Reports</Link></li>
-            </ul>
-          </div>
-        </nav>
+        <Sidebar />
 
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
