@@ -1,6 +1,6 @@
 # Anvaya CRM — Frontend Application
 
-Anvaya CRM is a sales pipeline and lead management single-page application built with React, React Router v6, and Bootstrap 5. It communicates with a backend REST API hosted at `https://anvaya-crm-phase-2.vercel.app/api`.
+Anvaya CRM is a sales pipeline and lead management single-page application built with React, React Router v6, and Bootstrap 5[cite: 11]. It communicates with a backend REST API hosted at [https://anvaya-crm-phase-2.vercel.app/api](https://anvaya-crm-phase-2.vercel.app/api).
 
 ---
 
@@ -15,7 +15,7 @@ Anvaya CRM is a sales pipeline and lead management single-page application built
 ### 2. Lead List Overview (`/leads`)
 
 - Full lead ledger displaying lead name, source, priority, turnaround days, status badge, and assigned sales agent.
-- Filter by **Status**, **Source**, **Sales Agent**, and **Tags**.
+- Filter by **Status**, **Source**, **Sales Agent**, and **Tags**
 - Sort by **Priority** (High to Low) and **Time to Close** (Ascending).
 - **URL Parameter Synchronization:** Active filters and sort states are kept in sync with browser query params using `useSearchParams`.
 
@@ -49,16 +49,12 @@ Anvaya CRM is a sales pipeline and lead management single-page application built
 - Collapsible hamburger menu on smaller viewports for seamless navigation across all views.
 - Non-blocking toast notifications for success and error messages instead of browser alerts.
 
----
-
 ## Tech Stack
 
 - **Framework:** React 18
 - **Routing:** React Router v6
 - **Styling:** Bootstrap 5
-- **Backend API:** `https://anvaya-crm-phase-2.vercel.app/api`
-
----
+- **Backend API:** [https://anvaya-crm-phase-2.vercel.app/api](https://anvaya-crm-phase-2.vercel.app/api)
 
 ## Getting Started
 
